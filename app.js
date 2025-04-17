@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use((req, res, next) => {
   User.findById('67f4acd850547f05b0b66388')
     .then(user => {
-      req.user = new User(user.name, user.email, user.cart, user._id);
+      req.user = user;
       next();
     })
     .catch(err => console.log(err));
@@ -34,7 +34,10 @@ app.use(errorController.get404);
 
 let connectToDB = async () => {
   try {
-    let result = mongoose.connect('mongodb://0.0.0.0:27017/mongoose');
+    let result = mongoose.connect('mongodb://0.0.0.0:27017/mongoose', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
 
     User.findOne().then(user => {
       if (!user) {
