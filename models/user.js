@@ -49,17 +49,21 @@ userSchema.methods.addToCart = function (product) {
 };
 
 userSchema.methods.deleteFromCart = function (productId) {
+  console.log('Before deletion - cart items:', this.cart.items);
+  console.log('Attempting to delete product with ID:', productId);
 
   const updatedCartItems = this.cart.items.filter(item => {
-    return item.productId.toString() !== productId.toString() && item.productId;
+    const itemId = item.productId.toString();
+    const deleteId = productId.toString();
+    return itemId !== deleteId;
   });
-  console.log('updatedCartItems = ',updatedCartItems);
+  console.log('After deletion - updated cart items:', updatedCartItems);
 
   this.cart.items = updatedCartItems;
   return this.save();
 }
 
-module.exports = mongoose.model('User', userSchema);``
+module.exports = mongoose.model('User', userSchema); ``
 
 // const mongodb = require('mongodb');
 // const getDb = require('../util/database').getDb;
