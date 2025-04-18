@@ -32,18 +32,16 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-let connectToDB = async () => {
-  try {
-    let result = mongoose.connect('mongodb://0.0.0.0:27017/mongoose', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
-
+mongoose
+  .connect(
+    'mongodb://127.0.0.1:27017/'
+  )
+  .then(result => {
     User.findOne().then(user => {
       if (!user) {
-        let user = new User({
+        const user = new User({
           name: 'Pushkar',
-          email: 'a@a.a',
+          email: 'Pushkar@.com',
           cart: {
             items: []
           }
@@ -51,12 +49,10 @@ let connectToDB = async () => {
         user.save();
       }
     });
-
     app.listen(3000);
-    console.log(`server runnong at ${3000} and ${result}`);
-  } catch (err) {
+  })
+  .catch(err => {
     console.log(err);
-  }
-}
-connectToDB();
+  });
 
+  //the new one
