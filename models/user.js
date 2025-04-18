@@ -63,8 +63,9 @@ userSchema.methods.deleteFromCart = function (productId) {
   return this.save();
 }
 
-userSchema.methods.addOrder = function () {
-    
+userSchema.methods.clearCart = function () {
+  this.cart = { items: [] };
+  return this.save();
 }
 
 module.exports = mongoose.model('User', userSchema); ``
